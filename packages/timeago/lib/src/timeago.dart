@@ -48,7 +48,7 @@ void setLocaleMessages(String locale, LookupMessages lookupMessages) {
 /// - If [allowFromNow] is passed, format will use the From prefix, ie. a date
 ///   5 minutes from now in 'en' locale will display as "5 minutes from now"
 String format(DateTime date,
-    {String? locale, DateTime? clock, bool allowFromNow = false}) {
+    {String? locale, DateTime? clock, bool allowFromNow = false, String? prefix, String? suffix}) {
   final _locale = locale ?? _default;
   if (_lookupMessagesMap[_locale] == null) {
     print("Locale [$_locale] has not been added, using [$_default] as fallback. To add a locale use [setLocaleMessages]");
@@ -58,16 +58,18 @@ String format(DateTime date,
   final _clock = clock ?? DateTime.now();
   var elapsed = _clock.millisecondsSinceEpoch - date.millisecondsSinceEpoch;
 
-  String prefix, suffix;
+  String _prefix, _suffix;
 
   if (_allowFromNow && elapsed < 0) {
     elapsed = date.isBefore(_clock) ? elapsed : elapsed.abs();
-    prefix = messages.prefixFromNow();
-    suffix = messages.suffixFromNow();
+    _prefix = messages.prefixFromNow();
+    _suffix = messages.suffixFromNow();
   } else {
-    prefix = messages.prefixAgo();
-    suffix = messages.suffixAgo();
+    _prefix = messages.prefixAgo();
+    _suffix = messages.suffixAgo();
   }
+  _prefix = prefix ?? _prefix;
+  _suffix = suffix ?? _suffix;
 
   final num seconds = elapsed / 1000;
   final num minutes = seconds / 60;
@@ -101,7 +103,7 @@ String format(DateTime date,
     result = messages.years(years.round());
   }
 
-  return [prefix, result, suffix]
+  return [_prefix, result, _suffix]
       .where((str) => str.isNotEmpty)
       .join(messages.wordSeparator());
 }
