@@ -17,7 +17,7 @@ class EnMessages implements LookupMessages {
   @override
   String minutes(int minutes) => '$minutes minutes';
   @override
-  String aboutAnHour(int minutes) => 'about an hour';
+  String aboutAnHour(int minutes) => 'an hour';
   @override
   String hours(int hours) => '$hours hours';
   @override
@@ -25,11 +25,11 @@ class EnMessages implements LookupMessages {
   @override
   String days(int days) => '$days days';
   @override
-  String aboutAMonth(int days) => 'about a month';
+  String aboutAMonth(int days) => 'a month';
   @override
   String months(int months) => '$months months';
   @override
-  String aboutAYear(int year) => 'about a year';
+  String aboutAYear(int year) => 'a year';
   @override
   String years(int years) => '$years years';
   @override
